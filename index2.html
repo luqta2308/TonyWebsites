@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#050510" />
+
+  <title>Tony Websites — Orçamento em Até 72h</title>
+  <meta name="description" content="Orçamento de site premium com foco em conversão. Entrega do site em até 72 horas (max). Design elite + performance." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#050510',
+            accent: '#8B5CF6',
+            'accent-light': '#A78BFA',
+            'accent-dark': '#7C3AED',
+            gold: '#F59E0B',
+            emerald: '#10B981',
+            rose: '#F43F5E',
+            muted: '#9CA3AF',
+            'muted-light': '#D1D5DB'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #050510;
+      color: white;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      font-family: Inter, sans-serif;
+    }
+
+    /* Base glass + cards (mix do index.html com o estilo de conversão) */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 18px;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #fff 0%, #8B5CF6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-gold {
+      background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-emerald {
+      background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-rose {
+      background: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-shift {
+      background: linear-gradient(90deg, #8B5CF6, #A78BFA, #C4B5FD, #8B5CF6);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: grad-shift 4s ease infinite;
+    }
+
+    @keyframes grad-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Botão premium (index.html) */
+    .btn-premium {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+
+    .btn-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      transition: 0.5s;
+      z-index: -1;
+    }
+
+    .btn-premium:hover::before { transform: translateX(100%); }
+
+    /* Hero video overlay (index.html) */
+    .video-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, #050505 90%);
+      z-index: 1;
+    }
+
+    /* Marquee */
+    .marquee-wrap { overflow: hidden; }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      gap: 60px;
+      align-items: center;
+      animation: marquee 22s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #050510; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(139,92,246,0.45);
+      border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+      * { scroll-behavior: auto !important; }
+    }
+
+    /* Fallback for AOS animations (avoid initial invisible states) */
+    [data-aos] { will-change: transform, opacity; }
+
+    /* Page transition overlay */
+    .page-transition-overlay{
+      position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;
+      transition:opacity 0.35s ease;
+    }
+    .page-transition-overlay.active{opacity:1;}
+
+    .pt-bg{
+      position:absolute;inset:0;
+      background: radial-gradient(900px circle at center, rgba(139,92,246,0.45) 0%, rgba(5,5,16,0.92) 55%, rgba(5,5,16,1) 100%);
+      filter:saturate(130%);
+    }
+
+    .pt-scan{
+      position:absolute;inset:-20%;
+      background: repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 2px, transparent 6px);
+      mix-blend-mode: overlay;
+      opacity:0.45;
+      transform: translateY(-50%);
+      animation: ptScan 0.9s ease forwards;
+    }
+
+    @keyframes ptScan{
+      0%{transform:translateY(-50%);}
+      100%{transform:translateY(50%);}
+    }
+
+    .pt-lines{
+      position:absolute;inset:0;
+      background: linear-gradient(90deg, transparent 0%, rgba(124,58,237,0.25) 30%, rgba(244,63,94,0.2) 55%, rgba(245,158,11,0.18) 80%, transparent 100%);
+      opacity:0;
+      animation: ptLines 0.55s ease forwards;
+    }
+
+    @keyframes ptLines{
+      0%{opacity:0;transform:scaleX(0.75);}
+      100%{opacity:1;transform:scaleX(1);}
+    }
+
+    .pt-label{
+      position:relative;
+      z-index:2;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 800;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      padding: 14px 18px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      box-shadow: 0 0 50px rgba(139,92,246,0.25);
+      transform: translateY(14px);
+      opacity:0;
+      animation: ptLabel 0.65s ease forwards;
+    }
+
+    @keyframes ptLabel{
+      0%{opacity:0;transform:translateY(14px);}
+      100%{opacity:1;transform:translateY(0);}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .page-transition-overlay{display:none;}
+    }
+
+    /* Lead form */
+    .input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      color: #fff;
+      padding: 12px 14px;
+      outline: none;
+    }
+    .input:focus { border-color: rgba(139,92,246,0.5); box-shadow: 0 0 0 4px rgba(139,92,246,0.12); }
+
+  </style>
+</head>
+<body>
+
+  <!-- Page transition overlay (intro + section change) -->
+  <div id="pageTransition" class="page-transition-overlay" aria-hidden="true">
+    <div class="pt-bg"></div>
+    <div class="pt-scan"></div>
+    <div class="pt-lines"></div>
+    <div class="pt-label">TONY WEBSITES</div>
+  </div>
+
+  <div id="top" class="relative">
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- NAV (pill ativo) -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-4xl">
+      <div class="glass rounded-full px-6 py-3 flex items-center justify-between relative">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 bg-brand-accent/0 bg-accent rounded-sm rotate-45 flex items-center justify-center font-display font-bold text-white text-[10px]">
+            T
+          </div>
+          <span class="font-display font-bold text-sm tracking-widest uppercase">
+            Tony <span class="text-accent">Websites</span>
+          </span>
+        </div>
+
+        <div id="nav-links" class="hidden md:flex items-center gap-8 text-[11px] font-medium uppercase tracking-widest text-muted relative">
+          <a href="#inicio" class="nav-item px-3 py-1 hover:text-white transition-colors">Início</a>
+          <a href="#problema" class="nav-item px-3 py-1 hover:text-white transition-colors">Dor</a>
+          <a href="#diferencial" class="nav-item px-3 py-1 hover:text-white transition-colors">Diferencial</a>
+          <a href="#portfolio" class="nav-item px-3 py-1 hover:text-white transition-colors">Cases</a>
+          <a href="#oferta" class="nav-item px-3 py-1 hover:text-white transition-colors">Orçamento</a>
+          <div id="nav-pill" class="absolute" style="height:24px; border-radius:9999px; background: rgba(139,92,246,0.3); backdrop-filter: blur(5px); border: 1px solid rgba(139,92,246,0.5); top: 50%; transform: translateY(-50%); z-index: -1; pointer-events:none;"></div>
+        </div>
+
+        <a href="https://wa.me/5587991064026?text=Olá%20Tony!%20Quero%20um%20orçamento%20de%20site%20premium." class="btn-premium bg-accent text-white px-4 py-1.5 rounded-full font-bold text-[10px] uppercase tracking-tighter hover:bg-accent-dark transition-all shadow-[0_10px_30px_rgba(139,92,246,0.25)]">
+          Orçamento Agora
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO (stack de conversão) -->
+    <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+
+      <div class="absolute inset-0 z-0">
+        <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-40">
+          <source src="assets/mp1.mp4" type="video/mp4" />
+        </video>
+        <div class="video-bg-overlay"></div>
+      </div>
+
+      <div class="absolute inset-0 z-0" aria-hidden="true" id="heroParticles" style="pointer-events:none;"></div>
+      <div class="absolute -top-44 -right-44 w-[520px] h-[520px] bg-accent/40 rounded-full blur-3xl opacity-30"></div>
+      <div class="absolute -bottom-28 left-[-80px] w-[300px] h-[300px] bg-emerald/30 rounded-full blur-3xl opacity-20"></div>
+
+      <div class="relative z-10 text-center max-w-5xl mx-auto">
+        <div data-aos="zoom-out" class="inline-block">
+          <span class="inline-block py-1 px-3 rounded-full glass text-[10px] uppercase tracking-[0.2em] text-accent mb-6 font-medium">
+            Orçamento Premium + Entrega em Até 72h
+          </span>
+        </div>
+
+        <h1 data-aos="zoom-out" class="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tighter mb-8" style="font-family: Space Grotesk, sans-serif;">
+          Seu site não é um gasto.
+          <br />
+          É a <span class="text-gradient-gold">máquina</span>
+          <br />
+          que <span class="text-gradient-shift">trabalha</span> pro seu lucro.
+        </h1>
+
+        <p data-aos="fade-up" class="text-muted-light text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+          Você solicita o orçamento e a gente desenha a rota.
+          Depois, entregamos o site com design elite, performance e foco em conversão.
+          <strong class="text-white">Prazo máximo: 72 horas.</strong>
+        </p>
+
+        <div data-aos="fade-up" data-aos-delay="100" class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-10">
+          <a href="https://wa.me/5587991064026?text=Olá%20Tony!%20Quero%20um%20orçamento%20para%20um%20site%20premium." class="btn-premium bg-accent text-white px-10 py-5 rounded-full font-black text-lg transition-all">
+            Pedir Meu Orçamento
+          </a>
+          <a href="#oferta" class="text-white text-sm font-medium hover:text-accent transition-colors underline underline-offset-8">
+            Ver a Oferta
+          </a>
+        </div>
+
+        <div data-aos="fade-up" class="flex justify-center gap-12 mt-10">
+          <div class="text-center glass-card/0">
+            <div class="font-display font-black text-4xl md:text-5xl text-white counter" data-target="72">0</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-1">Prazo Máximo</div>
+          </div>
+          <div class="w-px bg-white/10"></div>
+          <div class="text-center">
+            <div class="font-display font-black text-4xl md:text-5xl text-gradient-emerald counter" data-target="100">0</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-1">Mobile-First</div>
+          </div>
+          <div class="w-px bg-white/10"></div>
+          <div class="text-center">
+            <div class="font-display font-black text-4xl md:text-5xl text-gradient-gold counter" data-target="95">0</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-1">Performance</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Marquee Social Proof -->
+    <div class="marquee-wrap bg-dark/80 backdrop-blur-sm border-y border-white/5">
+      <div class="marquee-track py-5">
+        <span class="marquee-item text-[11px] text-white/40">Orçamento Personalizado</span>
+        <span class="marquee-item">Entrega em até 72 horas</span>
+        <span class="marquee-item">Design premium</span>
+        <span class="marquee-item">Performance focada em conversão</span>
+        <span class="marquee-item">Orçamento Personalizado</span>
+        <span class="marquee-item">Entrega em até 72 horas</span>
+        <span class="marquee-item">Design premium</span>
+        <span class="marquee-item">Performance focada em conversão</span>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <section id="resultados" class="py-28 px-6 lg:px-12">
+      <div class="max-w-7xl mx-auto">
+        <div data-aos="fade-up" class="text-center mb-16">
+          <h2 class="font-display font-black text-4xl lg:text-6xl mb-6 tracking-tighter">
+            Resultado com <span class="text-gradient-gold">foco.</span>
+          </h2>
+          <p class="text-muted-light text-lg max-w-2xl mx-auto font-light">
+            Não é “site bonito”. É estrutura pensada pra transformar visita em lead.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div data-aos="fade-up" class="glass-card p-8 text-center">
+            <div class="font-display font-black text-4xl text-gradient-gold">72h</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-2">Prazo máximo</div>
+          </div>
+          <div data-aos="fade-up" data-aos-delay="100" class="glass-card p-8 text-center">
+            <div class="font-display font-black text-4xl text-white counter" data-target="95">0</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-2">Performance (alvo)</div>
+          </div>
+          <div data-aos="fade-up" data-aos-delay="200" class="glass-card p-8 text-center">
+            <div class="font-display font-black text-4xl text-gradient-emerald counter" data-target="100">0</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-2">Android + iOS</div>
+          </div>
+          <div data-aos="fade-up" data-aos-delay="300" class="glass-card p-8 text-center">
+            <div class="font-display font-black text-4xl text-gradient-rose">Lead</div>
+            <div class="text-[10px] uppercase tracking-widest text-muted mt-2">Roteiro de conversão</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEMA -->
+    <section id="problema" class="py-28 px-6 lg:px-12">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-20 items-center">
+          <div data-aos="fade-right">
+            <span class="text-accent uppercase tracking-[0.35em] text-xs font-bold">A Dor</span>
+            <h2 class="font-display font-black text-4xl lg:text-6xl mt-5 tracking-tighter leading-tight">
+              Todo dia sem seu site é oportunidade indo embora.
+            </h2>
+            <div class="space-y-5 text-muted-light text-lg font-light leading-relaxed mt-8">
+              <p>
+                O concorrente chega primeiro, com visual que impõe confiança e com estrutura pra gerar lead.
+                Enquanto você espera, o cliente decide.
+              </p>
+              <p class="text-white font-medium italic border-l-4 border-accent pl-4 py-2">
+                "O luxo é o que o cliente sente ao ver seu site."
+              </p>
+              <p>
+                Você não precisa de “um site”. Precisa de um ativo de vendas, com entrega em até 72 horas.
+              </p>
+            </div>
+          </div>
+          <div data-aos="fade-left" class="relative">
+            <div class="rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+              <video autoplay muted loop playsinline class="w-full h-auto object-cover">
+                <source src="assets/mp2.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIFERENCIAL -->
+    <section id="diferencial" class="py-28 px-6 lg:px-12 bg-dark">
+      <div class="max-w-7xl mx-auto">
+        <div data-aos="fade-up" class="text-center mb-16">
+          <span class="text-accent uppercase tracking-[0.35em] text-xs font-bold">Por que a Tony</span>
+          <h2 class="font-display font-black text-4xl lg:text-6xl mt-5 tracking-tighter">
+            Estratégia + design premium.
+          </h2>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-20 items-center">
+          <div data-aos="fade-right" class="relative">
+            <div class="absolute -inset-4 bg-accent/15 rounded-full blur-3xl"></div>
+            <img src="assets/png1.png" class="relative rounded-3xl border border-white/10 shadow-2xl w-full h-auto object-contain max-h-[420px]" alt="Tony Websites Studio" />
+          </div>
+
+          <div data-aos="fade-left">
+            <h3 class="font-display font-black text-3xl lg:text-4xl leading-tight">Não é “site bonito”. É conversão.</h3>
+            <p class="text-muted-light text-lg font-light leading-relaxed mt-5">
+              A gente cria o roteiro do cliente até o botão de orçamento: confiança, clareza e desejo.
+            </p>
+
+            <div class="mt-10 p-8 glass-card rounded-3xl border-l-4 border-accent">
+              <div class="space-y-4">
+                <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><div><strong>Design que impõe respeito</strong><p class="text-muted-light text-sm mt-0.5">Visual premium já no primeiro scroll.</p></div></div>
+                <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><div><strong>Performance e mobile-first</strong><p class="text-muted-light text-sm mt-0.5">Android + iOS com velocidade.</p></div></div>
+                <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><div><strong>Arquitetura de lead</strong><p class="text-muted-light text-sm mt-0.5">Clareza do “por que agora”.</p></div></div>
+                <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><div><strong>Entrega em até 72h</strong><p class="text-muted-light text-sm mt-0.5">Máximo. Você não fica esperando.</p></div></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO/Cases -->
+    <section id="portfolio" class="py-28 px-6 lg:px-12">
+      <div class="max-w-7xl mx-auto">
+        <div data-aos="fade-up" class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span class="text-accent uppercase tracking-[0.35em] text-xs font-bold">Cases</span>
+            <h2 class="font-display font-black text-4xl lg:text-6xl mt-5 tracking-tighter">Projetos que <span class="text-gradient">causam desejo</span>.</h2>
+            <p class="text-muted-light text-lg mt-4 font-light">Design premium + estrutura de conversão.</p>
+          </div>
+          <a href="#oferta" class="px-8 py-3 glass-card text-white rounded-full font-bold text-sm hover:border-accent transition-all" data-aos="fade-up" data-aos-delay="150">Pedir Orçamento</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div data-aos="zoom-in" class="group relative overflow-hidden rounded-3xl border border-white/10 glass-card">
+            <img src="assets/png2.png" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700" alt="Case — Alto padrão" />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-80"></div>
+            <div class="absolute bottom-8 left-8 right-8">
+              <span class="inline-block text-[10px] uppercase tracking-widest font-bold text-accent">Projeto Premium</span>
+              <h3 class="font-display font-black text-2xl mt-2">Identidade Visual + Site de Luxo</h3>
+              <p class="text-muted-light mt-2 text-sm">Arquitetura focada em confiança e lead.</p>
+            </div>
+          </div>
+
+          <div data-aos="zoom-in" data-aos-delay="120" class="group relative overflow-hidden rounded-3xl border border-white/10 glass-card">
+            <img src="assets/png3.png" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700" alt="Case — Conversão" />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-80"></div>
+            <div class="absolute bottom-8 left-8 right-8">
+              <span class="inline-block text-[10px] uppercase tracking-widest font-bold text-accent">Landing High-Ticket</span>
+              <h3 class="font-display font-black text-2xl mt-2">Alta conversão em mobile</h3>
+              <p class="text-muted-light mt-2 text-sm">Design premium + performance para decidir rápido.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10" data-aos="fade-up">
+          <div class="rounded-3xl border border-white/10 glass-card p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
+            <div class="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center font-display font-black text-accent">✓</div>
+            <div>
+              <h3 class="font-display font-black text-2xl">Quer um case como esse?</h3>
+              <p class="text-muted-light mt-1">Solicite seu orçamento e a gente te mostra o caminho ideal.</p>
+            </div>
+            <a href="#oferta" class="btn-premium bg-accent text-white px-8 py-3 rounded-full font-bold text-sm ml-auto">Orçamento Agora</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DEPOIMENTOS -->
+    <section id="depoimentos" class="py-28 px-6 lg:px-12 bg-dark">
+      <div class="max-w-7xl mx-auto">
+        <div data-aos="fade-up" class="text-center mb-16">
+          <span class="text-accent uppercase tracking-[0.35em] text-xs font-bold">Prova Social</span>
+          <h2 class="font-display font-black text-4xl lg:text-6xl mt-5 tracking-tighter">Clientes que <span class="text-gradient-gold">fecharam</span>.</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div data-aos="fade-up" class="testimonial-card rounded-3xl">
+            <div class="flex gap-1 mb-4">
+              <span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span>
+            </div>
+            <p class="text-muted-light leading-relaxed">
+              "Meu faturamento subiu depois do site. O cliente chega mais qualificado e eu fecho mais rápido."
+            </p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-white text-sm font-bold">R</div>
+              <div>
+                <p class="font-bold">Ricardo M.</p>
+                <p class="text-muted text-xs">CEO • Premium</p>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="120" class="testimonial-card rounded-3xl">
+            <div class="flex gap-1 mb-4">
+              <span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span>
+            </div>
+            <p class="text-muted-light leading-relaxed">
+              "A entrega foi rápida (72h). A página ficou impecável no celular e gerou leads no WhatsApp."
+            </p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald to-teal-600 flex items-center justify-center text-white text-sm font-bold">A</div>
+              <div>
+                <p class="font-bold">Ana P.</p>
+                <p class="text-muted text-xs">Advogada</p>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="240" class="testimonial-card rounded-3xl">
+            <div class="flex gap-1 mb-4">
+              <span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span><span class="text-gold">★</span>
+            </div>
+            <p class="text-muted-light leading-relaxed">
+              "O visual passa autoridade e a estrutura faz o cliente entender rápido. Isso vende sozinha."
+            </p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-purple-700 flex items-center justify-center text-white text-sm font-bold">M</div>
+              <div>
+                <p class="font-bold">Marcos S.</p>
+                <p class="text-muted text-xs">Startup</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- OFERTA (onde converte) -->
+    <section id="oferta" class="py-28 px-6 lg:px-12 relative overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-10">
+          <source src="assets/mp1.mp4" type="video/mp4" />
+        </video>
+        <div class="absolute inset-0 bg-dark/95"></div>
+      </div>
+      <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-[420px] h-[420px] bg-accent/25 rounded-full blur-3xl opacity-60"></div>
+
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div data-aos="fade-up" class="text-center mb-10">
+          <span class="text-accent uppercase tracking-[0.35em] text-xs font-bold">Oferta</span>
+          <h2 class="font-display font-black text-4xl lg:text-6xl mt-5 tracking-tighter">
+            Site Premium <span class="text-gradient-gold">High-Ticket</span>
+          </h2>
+          <p class="text-muted-light text-lg max-w-2xl mx-auto font-light mt-5">
+            Você solicita o orçamento e nós entregamos o site com estrutura de lead — no prazo máximo de <strong class="text-white">72 horas</strong>.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8 items-start">
+
+          <div data-aos="fade-right" class="glass-card p-8 rounded-3xl glow-purple border border-white/10">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center">⚡</div>
+              <div>
+                <p class="text-accent text-xs uppercase tracking-[0.35em] font-bold">Entrega + Processo</p>
+                <h3 class="font-display font-black text-2xl mt-1">O que você compra</h3>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span>Design exclusivo e premium</span></div>
+              <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span>100% responsivo (iOS + Android)</span></div>
+              <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span>SEO técnico + estrutura de conversão</span></div>
+              <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span>Performance (meta: 95+)</span></div>
+              <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span>Integração WhatsApp</span></div>
+              <div class="check-item"><div class="check-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span>Entrega em até 72 horas (máximo)</span></div>
+            </div>
+
+            <div class="mt-8 p-6 glass rounded-3xl border-l-4 border-l-accent">
+              <p class="text-white font-medium italic">
+                “Não competimos por preço. Competimos por valor.”
+              </p>
+            </div>
+          </div>
+
+          <div data-aos="fade-left" class="glass-card p-8 rounded-3xl">
+            <div class="text-center mb-6">
+              <span class="text-accent text-xs uppercase tracking-[0.35em] font-bold">Investimento</span>
+              <h3 class="font-display font-black text-3xl md:text-4xl mt-3">
+                <span class="text-gradient-gold">A partir de</span>
+              </h3>
+              <p class="text-muted-light mt-2">Personalizamos conforme o seu projeto.</p>
+            </div>
+
+            <div class="flex items-center justify-center gap-3 mb-6">
+              <span class="font-display font-black text-4xl text-gold">Solicite um Orçamento</span>
+            </div>
+
+            <form id="leadForm" class="space-y-4">
+              <div>
+                <label class="text-muted-light text-xs uppercase tracking-widest font-bold">Seu nome</label>
+                <input class="input mt-2" name="name" placeholder="Ex.: João" />
+              </div>
+              <div>
+                <label class="text-muted-light text-xs uppercase tracking-widest font-bold">WhatsApp</label>
+                <input class="input mt-2" name="whats" placeholder="(xx) xxxxx-xxxx" />
+              </div>
+              <div>
+                <label class="text-muted-light text-xs uppercase tracking-widest font-bold">Tipo de projeto</label>
+                <select class="input mt-2" name="type">
+                  <option value="Site premium">Site premium</option>
+                  <option value="Landing page">Landing page</option>
+                  <option value="Site institucional">Site institucional</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn-premium w-full bg-accent text-white px-6 py-4 rounded-2xl font-black text-sm shadow-[0_10px_30px_rgba(139,92,246,0.25)]">
+                Enviar e pedir orçamento (72h)
+              </button>
+
+              <p class="text-muted text-xs text-center">
+                Ao enviar, você será redirecionado ao WhatsApp para concluir.
+              </p>
+            </form>
+
+            <div class="mt-6 flex flex-col sm:flex-row items-center gap-4">
+              <a href="https://wa.me/5587991064026?text=Olá%20Tony!%20Preciso%20fazer%20orçamento%20de%20um%20site%20premium." class="btn-ghost flex-1 text-center px-5 py-3 rounded-2xl border border-white/10 hover:border-accent transition-colors">Orçamento sem preencher</a>
+              <a href="#" class="flex-1 text-center text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">Sem spam</a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- CTA FINAL -->
+    <section id="final" class="py-28 px-6 lg:px-12">
+      <div class="max-w-6xl mx-auto text-center">
+        <div data-aos="fade-up" class="max-w-3xl mx-auto">
+          <h2 class="font-display font-black text-4xl lg:text-6xl leading-tight">
+            Cada dia sem um site profissional é dinheiro que seus clientes deixam <span class="text-gradient-rose">pra concorrência.</span>
+          </h2>
+          <p class="text-muted-light text-lg mt-6 font-light leading-relaxed">
+            Peça seu orçamento agora e garanta o prazo máximo de entrega em até 72 horas.
+          </p>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="150" class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-6">
+          <a href="https://wa.me/5587991064026?text=Olá%20Tony!%20Preciso%20de%20um%20orçamento%20e%20quero%20entrega%20em%20até%2072%20horas." class="btn-premium bg-accent text-white px-10 py-5 rounded-full font-black text-lg">Falar com a Tony</a>
+          <a href="#oferta" class="text-white text-sm font-medium hover:text-accent transition-colors underline underline-offset-8">Ver Oferta</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="py-16 px-6 border-t border-white/10 bg-dark">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-accent rounded flex items-center justify-center font-display font-bold text-white">T</div>
+          <span class="font-display font-black text-lg tracking-tight uppercase">Tony <span class="text-accent">Websites</span></span>
+        </div>
+        <p class="text-muted text-xs text-center tracking-widest uppercase">© 2026 Tony Websites. Todos os direitos reservados.</p>
+        <div class="flex gap-6 text-muted font-semibold text-xs uppercase tracking-widest">
+          <a href="#inicio" class="hover:text-white transition-colors">Início</a>
+          <a href="#portfolio" class="hover:text-white transition-colors">Cases</a>
+          <a href="#oferta" class="hover:text-white transition-colors">Orçamento</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // AOS
+    AOS.init({ once: true, offset: 80 });
+
+    // Intro + section-change transition
+    const pageOverlay = document.getElementById('pageTransition');
+    let isTransitioning = false;
+
+    function playOverlayIntro() {
+      if (!pageOverlay || isTransitioning) return;
+      pageOverlay.classList.add('active');
+      // hide overlay shortly after first paint
+      setTimeout(() => {
+        pageOverlay.classList.remove('active');
+      }, 1100);
+    }
+
+    // First load
+    window.addEventListener('load', () => {
+      playOverlayIntro();
+    });
+
+    // marca global pra evitar double-handlers
+    window.__pageTransitionIsActive = false;
+
+    function startSectionTransition(targetEl) {
+      if (!pageOverlay || isTransitioning || !targetEl) return;
+
+      // Se o alvo já está quase na viewport (evita animação redundante)
+      const r = targetEl.getBoundingClientRect();
+      const alreadyNear = r.top <= 120 && r.bottom >= 160;
+      if (alreadyNear) return;
+
+      isTransitioning = true;
+      window.__pageTransitionIsActive = true;
+      pageOverlay.classList.add('active');
+
+      setTimeout(() => {
+        try {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch (e) {
+          targetEl.scrollIntoView(true);
+        }
+
+        setTimeout(() => {
+          pageOverlay.classList.remove('active');
+          isTransitioning = false;
+          window.__pageTransitionIsActive = false;
+        }, 550);
+      }, 220);
+    };
+
+    // Intercept navigation links with hash
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          startSectionTransition(target);
+        }
+      });
+    });
+
+    // Note: the existing smooth-scroll handler below is left in place for other anchors,
+    // but transitions above capture hash nav clicks.
+
+
+    // Scroll progress
+    window.addEventListener('scroll', () => {
+      const s = document.documentElement.scrollTop;
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      document.getElementById('scrollProgress').style.width = (s / h) * 100 + '%';
+    });
+
+    // Marquee speed: pause on hover (optional)
+    const marquee = document.querySelector('.marquee-track');
+    if (marquee) {
+      marquee.addEventListener('mouseenter', () => marquee.style.animationPlayState = 'paused');
+      marquee.addEventListener('mouseleave', () => marquee.style.animationPlayState = 'running');
+    }
+
+    // Counter
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.target;
+        const duration = 2200;
+        const step = target / (duration / 16);
+        let current = 0;
+
+        const tick = () => {
+          current += step;
+          if (current < target) {
+            el.textContent = Math.floor(current);
+            requestAnimationFrame(tick);
+          } else {
+            el.textContent = target;
+          }
+        };
+        tick();
+        counterIO.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter').forEach(c => counterIO.observe(c));
+
+    // Hero particles
+    const pc = document.getElementById('heroParticles');
+    if (pc) {
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.style.position = 'absolute';
+        p.style.width = '2px';
+        p.style.height = '2px';
+        p.style.background = 'rgba(139,92,246,0.6)';
+        p.style.borderRadius = '50%';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.top = (Math.random() * 60) + 'vh';
+        p.style.opacity = 0.6;
+        p.style.animation = `particle-${i} 14s linear infinite`;
+        p.style.zIndex = 0;
+
+        const style = document.createElement('style');
+        style.textContent = `@keyframes particle-${i}{0%{transform:translateY(80px) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-260px) scale(0);opacity:0}}`;
+        document.head.appendChild(style);
+
+        pc.appendChild(p);
+      }
+    }
+
+    // Hash smooth scroll (fallback) — se não cair no handler de transição acima
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => { if (e.defaultPrevented) return;
+        // Se a transição de página estiver ativa ou o clique já disparou animação, não faz nada.
+        if (window.__pageTransitionIsActive) return;
+
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const t = document.querySelector(href);
+        if (t) {
+          e.preventDefault();
+          t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Nav pill (index.html)
+    const navLinks = document.querySelectorAll('.nav-item');
+    const pill = document.getElementById('nav-pill');
+    const navLinksContainer = document.getElementById('nav-links');
+
+    function movePill(element) {
+      if (!pill || !element || !navLinksContainer) return;
+      const rect = element.getBoundingClientRect();
+      const containerRect = navLinksContainer.getBoundingClientRect();
+      pill.style.width = `${rect.width}px`;
+      pill.style.left = `${rect.left - containerRect.left}px`;
+      pill.style.top = `50%`;
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => movePill(link));
+      link.addEventListener('click', () => movePill(link));
+    });
+
+    window.addEventListener('load', () => {
+      if (navLinks[0]) movePill(navLinks[0]);
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.getAttribute('id');
+        const activeLink = document.querySelector(`a[href="#${id}"]`);
+        if (activeLink) {
+          navLinks.forEach(link => link.classList.remove('text-white'));
+          activeLink.classList.add('text-white');
+          movePill(activeLink);
+        }
+      });
+    }, { root: null, rootMargin: '-35% 0px -45% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Lead form => WhatsApp
+    const form = document.getElementById('leadForm');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = (form.elements['name'].value || '').trim();
+        const whats = (form.elements['whats'].value || '').trim();
+        const type = (form.elements['type'].value || 'Site premium').trim();
+
+        const message = `Olá Tony! Quero um orçamento de ${type}.\n\nNome: ${name || '—'}\nWhatsApp: ${whats || '—'}\nPrazo máximo: 72h.`;
+        const url = `https://wa.me/5587991064026?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+      });
+    }
+  </script>
+
+  <style>
+    /* Scroll progress color bar */
+    .scroll-progress { height: 3px; background: linear-gradient(90deg, #8B5CF6, #F43F5E, #F59E0B); position: fixed; top: 0; left: 0; z-index: 9999; width: 0%; }
+    .marquee-item { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(14px, 3vw, 22px); text-transform: uppercase; white-space: nowrap; color: rgba(255,255,255,0.08); }
+
+    .check-item { display: flex; align-items: flex-start; gap: 12px; }
+    .check-icon { width: 20px; height: 20px; background: rgba(16,185,129,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .check-icon svg { width: 12px; height: 12px; color: #10B981; }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: -16px;
+      left: 18px;
+      font-size: 92px;
+      color: rgba(139,92,246,0.1);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+  </style>
+
+</body>
+</html>
